@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "1076986726556",
+    "project_id": "hackathon2025-20130",
+    "storage_bucket": "hackathon2025-20130.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1076986726556:android:332e2623087ab0732bc559",
+        "android_client_info": {
+          "package_name": "com.emanuel_cac.Hackathon2025"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1076986726556-hbkniv8pfl2tndhceeajbjma6n5ja3dv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.emanuel_cac.Hackathon2025",
+            "certificate_hash": "6750b17de73586c16511e40be5495f154f27b745"
+          }
+        },
+        {
+          "client_id": "1076986726556-qr72nvfb4o2gasnm1grhdvng94tvqjih.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDG7XGs-OwCU8K3w3slqUiTqQXDvsNqBhs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1076986726556-qr72nvfb4o2gasnm1grhdvng94tvqjih.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1076986726556-dr5l7fjeph7tfr9v342bfav8sdoccali.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "Hackathon2025-demo1-ios"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
