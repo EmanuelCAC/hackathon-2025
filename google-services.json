@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "1076986726556-hbkniv8pfl2tndhceeajbjma6n5ja3dv.apps.googleusercontent.com",
+          "client_id": "1076986726556-rebeq63q13o44g84bhb3qkr7us2a43l3.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.emanuel_cac.Hackathon2025",
-            "certificate_hash": "6750b17de73586c16511e40be5495f154f27b745"
+            "certificate_hash": "e44b4ca86d834e026c2f31b49b9e753da5d20448"
           }
         },
         {
