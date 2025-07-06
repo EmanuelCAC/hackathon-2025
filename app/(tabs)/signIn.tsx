@@ -57,15 +57,13 @@ function signIn() {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={() => /*navigation.navigate("Register")*/ null}
-        >
+        <TouchableOpacity onPress={() => router.replace("/signUp")}>
           <Text>
             Não tem uma conta?{" "}
             <Text className="text-blue-500">Cadastre-se</Text>
           </Text>
-          <Hr margin={6}>Ou</Hr>
         </TouchableOpacity>
+        <Hr margin={6}>Ou</Hr>
         {/* <TouchableOpacity
           onPress={handleLogin}
           className="bg-blue-600 rounded-3xl py-4 px-12 w-full mb-4"

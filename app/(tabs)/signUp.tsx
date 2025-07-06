@@ -76,9 +76,7 @@ function signUp() {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={() => /*navigation.navigate("Register")*/ null}
-        >
+        <TouchableOpacity onPress={() => router.replace("/signIn")}>
           <Text>
             Já possui uma conta?{" "}
             <Text className="text-blue-500">Entre aqui</Text>
