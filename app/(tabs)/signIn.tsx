@@ -52,7 +52,7 @@ function signIn() {
             Não tem uma conta?{" "}
             <Text className="text-blue-500">Cadastre-se</Text>
           </Text>
-          <View className="flex flex-row my-3 items-center px-1">
+          <View className="flex flex-row my-6 items-center px-1">
             <View className="border border-black w-full h-0"></View>
             <Text className="text-center text-gray-500 absolute left-1/2 -translate-x-1/2 bg-[#ebebeb] px-2">
               Ou
