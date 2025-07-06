@@ -31,7 +31,7 @@ export default function Home() {
 
   return (
     <View className="flex-1 bg-white relative">
-      <MapView
+      {/* <MapView
         style={styles.map}
         // provider={PROVIDER_GOOGLE} 
         // region={{
@@ -46,7 +46,7 @@ export default function Home() {
         // userLocationPriority={'high'}
         // showsMyLocationButton={false}
       >
-      </MapView>
+      </MapView> */}
     </View>
   );
 }

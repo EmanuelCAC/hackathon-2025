@@ -9,6 +9,12 @@ export default function TabsLayout() {
           headerShown: false
         }}
       />
+    <Stack.Screen 
+        name="preferenceForm"
+        options={{
+          headerShown: false
+        }}
+      />
     </Stack>
   );
 }
