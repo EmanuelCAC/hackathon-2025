@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { View, Text, Image, ScrollView, StyleSheet, Dimensions, Animated } from "react-native"
 
 interface CardRoteiroProps {
+  size: number;
   title: string;
   description: string;
   image: string;
@@ -9,7 +10,7 @@ interface CardRoteiroProps {
   autoPlay?: boolean;
 }
 
-export const CardRoteiro = ({title, description, image, guideProfile, autoPlay = false}: CardRoteiroProps) => {
+export const CardRoteiro = ({size, title, description, image, guideProfile, autoPlay = false}: CardRoteiroProps) => {
 
   const scrollRef = useRef<ScrollView | null>(null);
   const { width: SCREEN_WIDTH } = Dimensions.get('window');
@@ -27,7 +28,7 @@ export const CardRoteiro = ({title, description, image, guideProfile, autoPlay =
         const next = (prev + 1) % images.length;
         if (scrollRef.current) {
           scrollRef.current.scrollTo({
-            x: next * 360,
+            x: next * size,
             animated: true,
           });
         }
@@ -39,30 +40,32 @@ export const CardRoteiro = ({title, description, image, guideProfile, autoPlay =
 
 
   return (
-    <View className="flex flex-col bg-white rounded-lg w-[360px] mx-2 h-min">
+    <View
+      style={{ width: size }}
+      className={`flex flex-col bg-white rounded-lg mx-2 h-min`}>
       <Animated.ScrollView
         ref={scrollRef}
         horizontal
         pagingEnabled
-        snapToInterval={SCREEN_WIDTH}
+        snapToInterval={size}
         decelerationRate="fast"
-        showsHorizontalScrollIndicator={true}
+        showsHorizontalScrollIndicator={false}
         contentContainerStyle={{flexGrow: 1}}
-        style={{ width: 360, height: 180, borderRadius: 16, backgroundColor: '#d1d5db', marginBottom: 8 }}
+        style={{ width: size, height: 180, borderRadius: 16, backgroundColor: '#d1d5db', marginBottom: 8 }}
       >
         {images.map((img, idx) => (
           <Image
             key={idx}
             source={img}
             resizeMode="cover"
-            style={{ width: 360, height: 180, borderRadius: 16 }}
+            style={{ width: size, height: 180, borderRadius: 16 }}
           />
         ))}
       </Animated.ScrollView>
 
       {!guideProfile ? (
         <>
-          <Text className="text-lg font-semibold">
+          <Text className="text-lg font-semibold text-wrap">
             {title}
           </Text>
           <Text>

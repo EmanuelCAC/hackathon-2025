@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import { PermissionsAndroid, Text, View, StyleSheet, Animated, ScrollView, Dimensions } from "react-native";
+import { PermissionsAndroid, Text, View, StyleSheet, Animated, ScrollView, Dimensions, Pressable, Modal, Image } from "react-native";
 import MapView, {Callout, Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import { useSharedValue } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CardRoteiro } from "../../components/CardRoteiro";
+import { DropdownButton } from "../../components/dropdownButton";
+import { RoteiroModal } from "../../components/RoteiroModal";
 
  
 export default function Home() {
@@ -33,8 +35,12 @@ export default function Home() {
   }, [])
 
 
-  const CARD_WIDTH = 374;
+  
+  const CARD_MARGIN = 8 * 2; // mx-2 = 8px de cada lado
   const { width: SCREEN_WIDTH } = Dimensions.get('window');
+  const CARD_WIDTH = SCREEN_WIDTH - 60; // ou qualquer valor dinâmico
+
+  const effectiveCardWidth = CARD_WIDTH + CARD_MARGIN;
 
   const cards = [
     { title: "Loren Ipsun", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", image: "" },
@@ -46,25 +52,21 @@ export default function Home() {
   const [mainIndex, setMainIndex] = useState(0);
   const [mainIndex2, setMainIndex2] = useState(0);
 
+
+  //Parte do Modal  
+  const [showRoteiro, setShowRoteiro] = useState(false)
+  const [selected, setSelected] = useState([])
+  
+  const images = [
+    require("../../assets/praia.jpg"),
+    require("../../assets/praia.jpg"),
+    require("../../assets/praia.jpg")
+  ];
+
   return (
     <SafeAreaView className="flex-1 bg-white">
-      {/* <MapView
-        style={styles.map}
-        provider={PROVIDER_GOOGLE} 
-        region={{
-            latitude: -23.621222,
-            longitude: -45.383078,
-            latitudeDelta: 0.005,
-            longitudeDelta: 0.005,
-          }}
-        loadingEnabled={true}
-        minZoomLevel={14}
-        showsUserLocation={true}
-        userLocationPriority={'high'}
-        showsMyLocationButton={false}
-      >
-      </MapView> */}
-
+      <RoteiroModal setSelected={setSelected} showRoteiro={showRoteiro} setShowRoteiro={setShowRoteiro} images={images} selected={selected} />
+      
       <Text className="text-4xl px-5 py-3">
         Roteiros
       </Text>
@@ -77,11 +79,11 @@ export default function Home() {
           horizontal
           contentContainerStyle={{
             flexGrow: 1,
-            paddingLeft: (SCREEN_WIDTH - CARD_WIDTH) / 2,
-            paddingRight: (SCREEN_WIDTH - CARD_WIDTH) / 2,
+            paddingLeft: (SCREEN_WIDTH - effectiveCardWidth) / 2,
+            paddingRight: (SCREEN_WIDTH - effectiveCardWidth) / 2,
           }}
           showsHorizontalScrollIndicator={false}
-          snapToInterval={CARD_WIDTH}
+          snapToInterval={effectiveCardWidth}
           scrollEventThrottle={16}
           decelerationRate={0}
           onMomentumScrollEnd={e => {
@@ -90,14 +92,17 @@ export default function Home() {
           }}
         >
           {cards.map((card, i) => (
-            <CardRoteiro
-              title={card.title}
-              description={card.description}
-              image={card.image}
-              key={i}
-              autoPlay={i === mainIndex}
-              guideProfile={card?.guideProfile}
-            />
+            <Pressable key={i} onPress={() => setShowRoteiro(true)}>
+              <CardRoteiro
+                size={CARD_WIDTH}
+                title={card.title}
+                description={card.description}
+                image={card.image}
+                key={i}
+                autoPlay={i === mainIndex}
+                guideProfile={card?.guideProfile}
+              />
+            </Pressable>
           ))}
         </Animated.ScrollView>
       </View>
@@ -110,11 +115,11 @@ export default function Home() {
           horizontal
           contentContainerStyle={{
             flexGrow: 1,
-            paddingLeft: (SCREEN_WIDTH - CARD_WIDTH) / 2,
-            paddingRight: (SCREEN_WIDTH - CARD_WIDTH) / 2,
+            paddingLeft: (SCREEN_WIDTH - effectiveCardWidth) / 2,
+            paddingRight: (SCREEN_WIDTH - effectiveCardWidth) / 2,
           }}
           showsHorizontalScrollIndicator={false}
-          snapToInterval={CARD_WIDTH}
+          snapToInterval={effectiveCardWidth}
           scrollEventThrottle={16}
           decelerationRate={0}
           onMomentumScrollEnd={e => {
@@ -123,14 +128,17 @@ export default function Home() {
           }}
         >
           {cards.map((card, i) => (
-            <CardRoteiro
-              title={card.title}
-              description={card.description}
-              image={card.image}
-              key={i}
-              autoPlay={i === mainIndex2}
-              guideProfile={card?.guideProfile}
-            />
+            <Pressable key={i}>
+              <CardRoteiro
+                size={CARD_WIDTH}
+                title={card.title}
+                description={card.description}
+                image={card.image}
+                key={i}
+                autoPlay={i === mainIndex2}
+                guideProfile={card?.guideProfile}
+              />
+            </Pressable>
           ))}
         </Animated.ScrollView>
       </View>
