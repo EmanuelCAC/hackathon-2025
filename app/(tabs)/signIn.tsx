@@ -3,15 +3,27 @@ import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { images } from "../../constants";
 import InputWithIcon from "../../components/InputWithIcon";
 import icons from "../../constants/icons";
+import { signInAuth } from "../../lib/firebase";
+import { useRouter } from "expo-router";
+import Hr from "../../components/Hr";
+
+const router = useRouter();
 
 function signIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
-    // Lógica de autenticação aqui
-
-    console.log("Login clicked");
+  const handleLogin = async () => {
+    if (!email || !password) {
+      alert("Por favor, preencha todos os campos");
+      return;
+    }
+    const result = await signInAuth(email, password);
+    if (!result.success) {
+      alert(result.error);
+      return;
+    }
+    router.replace("/home");
   };
   return (
     <View className="p-4 flex-1 justify-center items-center bg-[#ebebeb]">
@@ -52,14 +64,9 @@ function signIn() {
             Não tem uma conta?{" "}
             <Text className="text-blue-500">Cadastre-se</Text>
           </Text>
-          <View className="flex flex-row my-6 items-center px-1">
-            <View className="border border-black w-full h-0"></View>
-            <Text className="text-center text-gray-500 absolute left-1/2 -translate-x-1/2 bg-[#ebebeb] px-2">
-              Ou
-            </Text>
-          </View>
+          <Hr margin={6}>Ou</Hr>
         </TouchableOpacity>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={handleLogin}
           className="bg-blue-600 rounded-3xl py-4 px-12 w-full mb-4"
         >
@@ -71,7 +78,7 @@ function signIn() {
           <Text className="text-white font-bold text-center text-lg">
             Entre com o Facebook
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <TouchableOpacity
           onPress={handleLogin}
           className="rounded-3xl py-4 px-12 w-full mb-4 border-2 relative flex items-center"

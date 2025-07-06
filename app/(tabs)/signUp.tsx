@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
+import { useRouter } from "expo-router";
 import { icons, images } from "../../constants";
 import InputWithIcon from "../../components/InputWithIcon";
+import { signUpAuth } from "../../lib/firebase";
+
+// import  from "../../lib/firebase";
+
+const router = useRouter();
 
 function signUp() {
   const [email, setEmail] = useState("");
@@ -9,10 +15,21 @@ function signUp() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
 
-  const handleSignUp = () => {
-    // Lógica de autenticação aqui
-
-    console.log("Login clicked");
+  const handleSubmit = async () => {
+    if (confirmPassword !== password) {
+      alert("As senhas não coincidem");
+      return;
+    }
+    if (!email || !password || !name) {
+      alert("Por favor, preencha todos os campos");
+      return;
+    }
+    const result = await signUpAuth(email, password, name);
+    if (!result.success) {
+      alert(result.error);
+      return;
+    }
+    router.replace("/home");
   };
   return (
     <View className="p-4 flex-1 justify-center items-center bg-[#ebebeb]">
@@ -51,7 +68,7 @@ function signUp() {
         />
 
         <TouchableOpacity
-          onPress={handleSignUp}
+          onPress={handleSubmit}
           className="bg-primary rounded-3xl py-4 px-12 w-fit max-w-xs mb-4"
         >
           <Text className="text-white font-bold text-center text-lg">
