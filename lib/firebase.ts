@@ -99,6 +99,16 @@ export const getRoteiros = async () => {
   return data;
 };
 
+export const getGuias = async () => {
+  const guiasRef = firestore.collection("Guia");
+  const data = await guiasRef.get();
+  const guiaData = data.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+  return guiaData;
+};
+
 export const getRoteirosWithPontos = async () => {
   const roteirosRef = firestore.collection("Roteiro");
   const roteirosSnap = await roteirosRef.get();
