@@ -12,14 +12,6 @@ import DropdownComponent from "../../components/DropdownList";
 import { icons } from "../../constants";
 import { getPontos, getTags, saveRoteiro } from "../../lib/firebase";
 import { MultiSelectButton } from "../../components/Multiselect";
-import Header from "../../components/Header";
-
-export default function Create() {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [tags, setTags] = useState<Array<string>>([]);
-  const [pontos, setPontos] = useState<any[]>([]);
-  const [tagsData, setTagsData] = useState<any[]>([]);
 
   const [roteiroData, setRoteiroData] = useState([
     {
@@ -57,9 +49,8 @@ export default function Create() {
           return {
             ...dia,
             data: [
-              ...dia.data,
               {
-                id: dia.data.length + 1,
+                id: 1,
                 place: "",
                 placeId: "",
               },
@@ -110,7 +101,6 @@ export default function Create() {
   const addTag = (newTags: Array<string>) => {
     setTags(newTags);
   };
-
   // const removeTag = (tagName: string) => {
   //   const index = tags.indexOf(tagName)
   //   const newTags = tags.splice(index, 1)

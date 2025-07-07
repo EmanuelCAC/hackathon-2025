@@ -42,17 +42,10 @@ import React, { useState } from 'react';
       height: 40,
       flex: 1,
       backgroundColor: 'white',
-      borderRadius: 12,
+      borderRadius: 16,
+      borderColor: 'rgba(0,0,0,0.25)',
+      borderWidth: 1,
       padding: 12,
-      shadowColor: '#000',
-      shadowOffset: {
-        width: 0,
-        height: 1,
-      },
-      shadowOpacity: 0.2,
-      shadowRadius: 1.41,
-
-      elevation: 2,
     },
     icon: {
       marginRight: 5,
@@ -69,6 +62,7 @@ import React, { useState } from 'react';
     },
     placeholderStyle: {
       fontSize: 16,
+      color: '#054C48'
     },
     selectedTextStyle: {
       fontSize: 16,
