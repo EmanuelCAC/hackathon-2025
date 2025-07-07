@@ -6,6 +6,8 @@ import explore from "../assets/explore.png";
 import home from "../assets/home.png";
 import route from "../assets/route.png";
 import lixo from "../assets/lixo.png";
+import bell from "../assets/bell.png";
+import star from "../assets/star.png";
 
 export default {
   user,
@@ -15,5 +17,7 @@ export default {
   home,
   explore,
   route,
-  lixo
+  lixo,
+  bell,
+  star,
 };
