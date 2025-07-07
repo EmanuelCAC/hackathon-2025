@@ -7,10 +7,23 @@ import { CardRoteiro } from "../../components/CardRoteiro";
 import { DropdownButton } from "../../components/dropdownButton";
 import { RoteiroModal } from "../../components/RoteiroModal";
 import { getRoteiros, getRoteirosWithPontos } from "../../lib/firebase";
+// import { CriadorDeRoteiro } from "../../lib/gemini";
 
  
 export default function Home() {
   const [roteiros, setRoteiros] = useState<any[]>([])
+
+  // const [ai, setAi] = useState<any>(null)
+
+  // useEffect(() => {
+  //   if (ai != null) {
+  //     let text = ai.candidates[0].content.parts[0].text
+  //     text = text.replaceAll("`", "")
+  //     text = text.replaceAll("json", "")
+  //     text = text.replaceAll("\\", "")
+  //     console.log(text)
+  //   }
+  // }, [ai])
 
   const fetchRoteiros = async () => {
     const data = await getRoteirosWithPontos()
@@ -24,7 +37,7 @@ export default function Home() {
     fetchRoteiros()
   }, [])
 
-  useEffect(() => {
+  useEffect(() => { 
     const granted = async () => {
       try {
         const permisson = await PermissionsAndroid.request(
@@ -121,6 +134,13 @@ export default function Home() {
         <Text className="text-2xl p-5">
           Melhor Avaliado
         </Text>
+        {/* <TouchableOpacity className="border border-black rounded-2xl p-2 px-4"
+          onPress={async () => setAi(await CriadorDeRoteiro())}
+        >
+          <Text>
+            ai
+          </Text>
+        </TouchableOpacity> */}
         <Animated.ScrollView
           horizontal
           contentContainerStyle={{
