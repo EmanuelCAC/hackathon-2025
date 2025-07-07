@@ -1,6 +1,12 @@
 import { useState } from "react";
-import { Text, TextInput} from "react-native";
+import { Pressable, Text, TextInput} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Header from "../../components/Header";
+import { firebase, getAuth, signOut } from "@react-native-firebase/auth";
+import { useRouter } from "expo-router";
+
+const auth = getAuth();
+const router = useRouter();
 
 export default function Profile() {
 
@@ -8,13 +14,20 @@ export default function Profile() {
 
   return (
     <SafeAreaView>
-      <TextInput
-        className="rounded-full font-bold mb-4 bg-secondary w-full text-xl p-4 pl-14" 
-        placeholderTextColor={"black"}
-        placeholder={"Aguas calmas"}
-        value={name}
-        onChangeText={(e) => setName(e)}
-      />
+      <Header />
+      <Text>
+        Profile
+      </Text>
+      <Pressable
+        onPress={async () => {
+          await signOut(auth)
+          router.replace('/signIn')
+        }}
+      >
+        <Text>
+          Logout
+        </Text>
+      </Pressable>
     </SafeAreaView>
   )
 }

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { PermissionsAndroid, Text, View, StyleSheet, TouchableHighlight, TouchableOpacity, Modal } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import TagSwich from "../components/TagSwich";
-import RadioButton from "../components/RadioButton";
+import TagSwich from "../app/components/TagSwich";
+import RadioButton from "../app/components/RadioButton";
 import { ScrollView } from "react-native";
 import { Button } from "@react-navigation/elements";
 
@@ -25,7 +25,6 @@ export default function preferenceForm() {
     ];
     const [isModalVisible, setIsModalVisible] = useState(true);
     return (
-        <View className="flex-1 bg-black-100">
             <Modal animationType="slide" transparent={true} visible={isModalVisible}>
                 <ScrollView className="flex-1 rounded-t-[40px] bg-white pb-20">
                     <Text className="text-2xl pt-10 px-5 font-bold text-center mb-5">Me conte um pouco sobre você e seus companheiros</Text>
@@ -96,7 +95,6 @@ export default function preferenceForm() {
                 </TouchableHighlight>
 
             </Modal>
-        </View>
     );
 }
 

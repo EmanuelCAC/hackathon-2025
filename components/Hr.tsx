@@ -20,9 +20,8 @@ function Hr({
 }) {
   return (
     <View
-      className={`flex flex-row items-center px-1 ${
-        margin ? `my-${margin}` : "my-4"
-      }`}
+      style={{margin}}
+      className={`flex flex-row items-center px-1`}
     >
       <View
         className={`border border-[${color}] w-full h-0 border-${size}`}

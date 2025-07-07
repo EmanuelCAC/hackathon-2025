@@ -63,7 +63,7 @@ function signIn() {
             <Text className="text-blue-500">Cadastre-se</Text>
           </Text>
         </TouchableOpacity>
-        <Hr margin={6}>Ou</Hr>
+        <Hr margin={24}>Ou</Hr>
         {/* <TouchableOpacity
           onPress={handleLogin}
           className="bg-blue-600 rounded-3xl py-4 px-12 w-full mb-4"

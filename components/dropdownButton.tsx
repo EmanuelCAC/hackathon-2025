@@ -40,8 +40,9 @@ export const DropdownButton = ({ data }: any) => {
             }}
             minZoomLevel={12}
           >
-            {data.data.map((item: any) => (
+            {data.data.map((item: any, i: number) => (
               <Marker
+                key={i}
                 coordinate={{
                   latitude: item.ponto.lat,
                   longitude: item.ponto.long,
@@ -55,8 +56,8 @@ export const DropdownButton = ({ data }: any) => {
       {isSelected && (
         <>
           <View className="flex flex-col my-3">
-            {data.data.map((parada: any) => (
-              <View className="flex flex-row">
+            {data.data.map((parada: any, i: number) => (
+              <View className="flex flex-row" key={i}>
                 <View className="flex w-[30%] h-[150px] items-center justify-center relative">
                   <View
                     style={{
