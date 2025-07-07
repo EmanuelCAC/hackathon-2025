@@ -5,6 +5,11 @@ import DropdownComponent from "../../components/DropdownList";
 import { icons } from "../../constants";
 import { getPontos, getTags, saveRoteiro } from "../../lib/firebase";
 import { MultiSelectButton } from "../../components/Multiselect";
+import { firebase, getAuth } from "@react-native-firebase/auth";
+import { useRouter } from "expo-router";
+
+const auth = getAuth();
+const router = useRouter();
 
 export default function Create() {
     const [name, setName] = useState("")
@@ -29,37 +34,46 @@ export default function Create() {
     )
   
     const newDay = () => {
-      setRoteiroData([...roteiroData,
-        {
-          title: "Dia " + (roteiroData.length + 1),
-          data: [
-            {
-              id: 1,
-              place: "",
-              placeId: ""
-            }
-          ]
-        }
-      ])
-    }
-
-    const newPlace = (id: number) => {
-      setRoteiroData(roteiroData.map((dia, i) => {
-        if (i == id) {
-          return {
-            ...dia,
+      if (auth?.currentUser == null) {
+        router.push('/signIn')
+      } else {
+        setRoteiroData([...roteiroData,
+          {
+            title: "Dia " + (roteiroData.length + 1),
             data: [
-              ...dia.data,
               {
-                id: dia.data.length + 1,
+                id: 1,
                 place: "",
                 placeId: ""
               }
             ]
           }
-        }
-        return dia;
-      }))
+        ])
+      }
+      
+    }
+
+    const newPlace = (id: number) => {
+      if (auth?.currentUser == null) {
+        router.push('/signIn')
+      } else {
+        setRoteiroData(roteiroData.map((dia, i) => {
+          if (i == id) {
+            return {
+              ...dia,
+              data: [
+                ...dia.data,
+                {
+                  id: dia.data.length + 1,
+                  place: "",
+                  placeId: ""
+                }
+              ]
+            }
+          }
+          return dia;
+        }))
+      }
     }
 
     // const removePlace = (dayIndex: number, placeIndex: number) => {
@@ -76,21 +90,29 @@ export default function Create() {
     // }
 
     const editPlace = (dayIndex: number, placeIndex: number, newPlace: string, newPlaceId: string) => {
-      setRoteiroData(roteiroData.map((dia, i) => {
-        if (i === dayIndex) {
-          return {
-            ...dia,
-            data: dia.data.map((place, j) =>
-              j === placeIndex ? { ...place, place: newPlace, placeId: newPlaceId} : place
-            )
-          };
-        }
-        return dia;
-      }));
+      if (auth?.currentUser == null) {
+        router.push('/signIn')
+      } else {
+        setRoteiroData(roteiroData.map((dia, i) => {
+          if (i === dayIndex) {
+            return {
+              ...dia,
+              data: dia.data.map((place, j) =>
+                j === placeIndex ? { ...place, place: newPlace, placeId: newPlaceId} : place
+              )
+            };
+          }
+          return dia;
+        }));
+      }
     }
 
     const addTag = (newTags: Array<string>) => {
-      setTags(newTags)
+      if (auth?.currentUser == null) {
+        router.push('/signIn')
+      } else {
+        setTags(newTags)
+      }
     }
 
     // const removeTag = (tagName: string) => {
@@ -100,18 +122,22 @@ export default function Create() {
     // }
 
     const handelSave = async () => {
-      await saveRoteiro(name, description, JSON.stringify(roteiroData), tags)
-      setName("")
-      setDescription("")
-      setRoteiroData(
-        [
-          {
-            title: "Dia 1",
-            data: []
-          }
-        ]
-      )
-      setTags([])
+      if (auth?.currentUser == null) {
+        router.push('/signIn')
+      } else {
+        await saveRoteiro(name, description, JSON.stringify(roteiroData), tags)
+        setName("")
+        setDescription("")
+        setRoteiroData(
+          [
+            {
+              title: "Dia 1",
+              data: []
+            }
+          ]
+        )
+        setTags([])
+      }
     }
 
     const fetchPontos = async () => {
