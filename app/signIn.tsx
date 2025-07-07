@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { images } from "../../constants";
-import InputWithIcon from "../../components/InputWithIcon";
-import icons from "../../constants/icons";
-import { signInAuth } from "../../lib/firebase";
+import { images } from "../constants";
+import InputWithIcon from "../components/InputWithIcon";
+import icons from "../constants/icons";
+import { signInAuth } from "../lib/firebase";
 import { useRouter } from "expo-router";
-import Hr from "../../components/Hr";
+import Hr from "../components/Hr";
 
 const router = useRouter();
 

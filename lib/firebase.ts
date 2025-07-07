@@ -65,3 +65,18 @@ export const signUpAuth = async (
     return { success: false, error };
   }
 };
+
+export const saveRoteiro = async (
+  name: string,
+  description: string,
+  data: string,
+  tags: string[]
+) => {
+  const roteiroRef = firestore.collection("Roteiro").doc();
+  await roteiroRef.set({
+    name: name,
+    description: description,
+    tags: tags,
+    data: data,
+  });
+};

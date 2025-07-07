@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { PermissionsAndroid, Text, View, StyleSheet, Animated, ScrollView, Dimensions, Pressable, Modal, Image } from "react-native";
+import { PermissionsAndroid, Text, View, StyleSheet, Animated, ScrollView, Dimensions, Pressable, Modal, Image, TouchableOpacity } from "react-native";
 import MapView, {Callout, Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import { useSharedValue } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -92,7 +92,7 @@ export default function Home() {
           }}
         >
           {cards.map((card, i) => (
-            <Pressable key={i} onPress={() => setShowRoteiro(true)}>
+            <TouchableOpacity key={i} onPress={() => setShowRoteiro(true)}>
               <CardRoteiro
                 size={CARD_WIDTH}
                 title={card.title}
@@ -102,7 +102,7 @@ export default function Home() {
                 autoPlay={i === mainIndex}
                 guideProfile={card?.guideProfile}
               />
-            </Pressable>
+            </TouchableOpacity>
           ))}
         </Animated.ScrollView>
       </View>
@@ -128,7 +128,7 @@ export default function Home() {
           }}
         >
           {cards.map((card, i) => (
-            <Pressable key={i}>
+            <TouchableOpacity key={i}>
               <CardRoteiro
                 size={CARD_WIDTH}
                 title={card.title}
@@ -138,7 +138,7 @@ export default function Home() {
                 autoPlay={i === mainIndex2}
                 guideProfile={card?.guideProfile}
               />
-            </Pressable>
+            </TouchableOpacity>
           ))}
         </Animated.ScrollView>
       </View>
