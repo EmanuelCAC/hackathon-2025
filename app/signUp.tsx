@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { useRouter } from "expo-router";
-import { icons, images } from "../../constants";
-import InputWithIcon from "../../components/InputWithIcon";
-import { signUpAuth } from "../../lib/firebase";
-
-// import  from "../../lib/firebase";
+import { icons, images } from "../constants";
+import InputWithIcon from "../components/InputWithIcon";
+import { signUpAuth } from "../lib/firebase";
 
 const router = useRouter();
 
