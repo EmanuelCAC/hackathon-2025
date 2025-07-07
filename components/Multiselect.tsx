@@ -27,21 +27,20 @@ import React, { useEffect, useState } from 'react';
           inputSearchStyle={styles.inputSearchStyle}
           iconStyle={styles.iconStyle}
           data={data}
-          labelField="label"
-          valueField="value"
-          placeholder="Select item"
+          labelField="name"
+          valueField="name"
+          placeholder="Selecionar etiquetas"
           value={selected}
           search
-          searchPlaceholder="Search..."
+          searchPlaceholder="Pesquisar..."
           onChange={item => {
             setSelected(item);
             addTag(item)
-            console.log(item)
           }}
           renderSelectedItem={(item, unSelect) => (
             <TouchableOpacity onPress={() => unSelect && unSelect(item)}>
               <View style={styles.selectedStyle}>
-                <Text style={styles.textSelectedStyle}>{item.label}</Text>
+                <Text style={styles.textSelectedStyle}>{item.name}</Text>
                 <AntDesign color="black" name="delete" size={17} />
               </View>
             </TouchableOpacity>

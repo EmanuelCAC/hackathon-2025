@@ -6,9 +6,24 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { CardRoteiro } from "../../components/CardRoteiro";
 import { DropdownButton } from "../../components/dropdownButton";
 import { RoteiroModal } from "../../components/RoteiroModal";
+import { getRoteiros, getRoteirosWithPontos } from "../../lib/firebase";
 
  
 export default function Home() {
+  const [roteiros, setRoteiros] = useState<any[]>([])
+
+  const fetchRoteiros = async () => {
+    const data = await getRoteirosWithPontos()
+    data.forEach((item: any) => {
+      item.images = item.data.flatMap((day: any) => day.data.map((parada: any) => parada.ponto.foto));
+    })
+    setRoteiros(data)
+  }
+
+  useEffect(() => {
+    fetchRoteiros()
+  }, [])
+
   useEffect(() => {
     const granted = async () => {
       try {
@@ -39,15 +54,7 @@ export default function Home() {
   const CARD_MARGIN = 8 * 2; // mx-2 = 8px de cada lado
   const { width: SCREEN_WIDTH } = Dimensions.get('window');
   const CARD_WIDTH = SCREEN_WIDTH - 60; // ou qualquer valor dinâmico
-
   const effectiveCardWidth = CARD_WIDTH + CARD_MARGIN;
-
-  const cards = [
-    { title: "Loren Ipsun", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", image: "" },
-    { title: "Loren Ipsun", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", image: "", guideProfile: "a" },
-    { title: "Loren Ipsun", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", image: "", guideProfile: "a" },
-    { title: "Loren Ipsun", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", image: "" },
-  ];
 
   const [mainIndex, setMainIndex] = useState(0);
   const [mainIndex2, setMainIndex2] = useState(0);
@@ -55,7 +62,7 @@ export default function Home() {
 
   //Parte do Modal  
   const [showRoteiro, setShowRoteiro] = useState(false)
-  const [selected, setSelected] = useState([])
+  const [selected, setSelected] = useState<any>({})
   
   const images = [
     require("../../assets/praia.jpg"),
@@ -65,7 +72,7 @@ export default function Home() {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <RoteiroModal setSelected={setSelected} showRoteiro={showRoteiro} setShowRoteiro={setShowRoteiro} images={images} selected={selected} />
+      <RoteiroModal setSelected={setSelected} showRoteiro={showRoteiro} setShowRoteiro={setShowRoteiro} selected={selected} />
       
       <Text className="text-4xl px-5 py-3">
         Roteiros
@@ -91,16 +98,19 @@ export default function Home() {
             setMainIndex(i);
           }}
         >
-          {cards.map((card, i) => (
-            <TouchableOpacity key={i} onPress={() => setShowRoteiro(true)}>
+          {roteiros.map((card, i) => (
+            <TouchableOpacity key={i} onPress={() => {
+              setShowRoteiro(true)
+              setSelected(card)
+            }}>
               <CardRoteiro
                 size={CARD_WIDTH}
-                title={card.title}
+                title={card.name}
                 description={card.description}
-                image={card.image}
+                image={card.images}
                 key={i}
                 autoPlay={i === mainIndex}
-                guideProfile={card?.guideProfile}
+                guideProfile={""}
               />
             </TouchableOpacity>
           ))}
@@ -127,7 +137,7 @@ export default function Home() {
             setMainIndex2(i);
           }}
         >
-          {cards.map((card, i) => (
+          {/* {cards.map((card, i) => (
             <TouchableOpacity key={i}>
               <CardRoteiro
                 size={CARD_WIDTH}
@@ -139,7 +149,7 @@ export default function Home() {
                 guideProfile={card?.guideProfile}
               />
             </TouchableOpacity>
-          ))}
+          ))} */}
         </Animated.ScrollView>
       </View>
     </SafeAreaView>

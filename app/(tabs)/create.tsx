@@ -1,32 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ScrollView, Text, TextInput, TouchableOpacity, View, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DropdownComponent from "../../components/DropdownList";
 import { icons } from "../../constants";
-import { saveRoteiro } from "../../lib/firebase";
+import { getPontos, getTags, saveRoteiro } from "../../lib/firebase";
 import { MultiSelectButton } from "../../components/Multiselect";
 
 export default function Create() {
-
-  const data2 = [
-      { label: 'Praia', value: 'Praia' },
-      { label: 'Ar livre', value: 'Ar livre' },
-      { label: 'Vinho', value: 'Vinho' },
-      { label: 'Trilha', value: 'Trilha' },
-      { label: 'Restaurante', value: 'Restaurante' },
-      { label: 'Museu', value: 'Museu' },
-    ];
-
-  const data = [
-    { label: 'Pria da Martin de Sá', value: '1_abc' },
-    { label: 'Praia do Massaguaçu', value: '2_abc' },
-    { label: 'Morro Santo Antonio', value: '3_abc' },
-    { label: 'Trilha da Praia Brava', value: '4_abc' },
-  ]
   
     const [name, setName] = useState("")
     const [description, setDescription] = useState("")
     const [tags, setTags] = useState<Array<string>>([])
+    const [pontos, setPontos] = useState<any[]>([])
+    const [tagsData, setTagsData] = useState<any[]>([])
 
     const [roteiroData, setRoteiroData] = useState(
       [
@@ -129,6 +115,29 @@ export default function Create() {
       setTags([])
     }
 
+    const fetchPontos = async () => {
+      const snapshot = await getPontos()
+      const data = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data()
+      }))
+      setPontos(data)
+    }
+
+    const fetchTags = async () => {
+      const snapshot = await getTags()
+      const data = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data()
+      }))
+      setTagsData(data)
+    }
+
+    useEffect(() => {
+      fetchPontos();
+      fetchTags();
+    }, [])
+
     return (
       <SafeAreaView className="flex-1">
         <ScrollView className="flex-1"
@@ -160,7 +169,7 @@ export default function Create() {
 
           <View className="w-full">
             <Text className="text-2xl font-semibold p-2 pl-4">Etiquetas:</Text>
-            <MultiSelectButton data={data2} addTag={addTag} tags={tags} />
+            <MultiSelectButton data={tagsData} addTag={addTag} tags={tags} />
           </View>
 
           <View className="flex flex-col w-full pb-20">
@@ -202,7 +211,7 @@ export default function Create() {
                         </View>
                       </View>
                       <View className="flex flex-row w-[87%] items-center">
-                        <DropdownComponent data={data} addToData={editPlace} id1={i} id2={j} />
+                        <DropdownComponent data={pontos} addToData={editPlace} id1={i} id2={j} />
                         {/* <TouchableOpacity
                           onPress={() => removePlace(i, j)}
                         >

@@ -5,7 +5,7 @@ interface CardRoteiroProps {
   size: number;
   title: string;
   description: string;
-  image: string;
+  image: string[];
   guideProfile?: string;
   autoPlay?: boolean;
 }
@@ -25,7 +25,7 @@ export const CardRoteiro = ({size, title, description, image, guideProfile, auto
     if (!autoPlay) return;
     const interval = setInterval(() => {
       setCarouselIndex((prev) => {
-        const next = (prev + 1) % images.length;
+        const next = (prev + 1) % image.length;
         if (scrollRef.current) {
           scrollRef.current.scrollTo({
             x: next * size,
@@ -53,11 +53,11 @@ export const CardRoteiro = ({size, title, description, image, guideProfile, auto
         contentContainerStyle={{flexGrow: 1}}
         style={{ width: size, height: 180, borderRadius: 16, backgroundColor: '#d1d5db', marginBottom: 8 }}
       >
-        {images.map((img, idx) => (
+        {image.map((img, idx) => (
           <Image
             key={idx}
-            source={img}
-            resizeMode="cover"
+            source={{ uri: img }}
+            resizeMode="cover" 
             style={{ width: size, height: 180, borderRadius: 16 }}
           />
         ))}
