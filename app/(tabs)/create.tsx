@@ -7,7 +7,6 @@ import { getPontos, getTags, saveRoteiro } from "../../lib/firebase";
 import { MultiSelectButton } from "../../components/Multiselect";
 
 export default function Create() {
-  
     const [name, setName] = useState("")
     const [description, setDescription] = useState("")
     const [tags, setTags] = useState<Array<string>>([])
@@ -141,26 +140,26 @@ export default function Create() {
     return (
       <SafeAreaView className="flex-1">
         <ScrollView className="flex-1"
-          contentContainerClassName="flex flex-col px-3 items-center"
+          contentContainerClassName="flex flex-col px-3"
         >
-          <Text className="text-3xl font-semibold text-center my-5">Crie seu Próprio Roterio de Viagem</Text>
-          <View className="flex flex-col items-start w-full">
-            <Text className="text-2xl font-semibold p-2 pl-4">Nome do Roteiro:</Text>
+          <Text className="text-3xl text-primary font-semibold my-5">Novo Roteiro</Text>
+          <View className="flex flex-col items-start w-full px-4">
+            <Text className="text-xl font-medium text-primary">Nome do roteiro:</Text>
             <TextInput
-              className="rounded-full font-bold mb-4 bg-white border-2 border-secondary w-full text-xl p-4 pl-8" 
-              placeholderTextColor={"#d69600"}
-              placeholder={"Aguas calmas..."}
+              className="rounded-2xl mb-4 pl-4 bg-white border border-black/25 w-full text-xl" 
+              placeholderTextColor={"#054C48"}
+              placeholder={"Digite"}
               value={name}
               onChangeText={(e) => setName(e)}
             />
           </View>
 
-          <View className="flex flex-col items-start w-full">
-            <Text className="text-2xl font-semibold p-2 pl-4">Descrição: <Text className="text-2xl text-gray-400">(opicional)</Text></Text>
+          <View className="flex flex-col items-start w-full px-4">
+            <Text className="text-xl font-medium text-primary">Descrição: (opicional)</Text>
             <TextInput
-              className="rounded-full font-bold mb-4 bg-white border-2 border-secondary w-full text-xl p-4 pl-8" 
-              placeholderTextColor={"#d69600"}
-              placeholder={"Descrição..."}
+              className="rounded-2xl mb-4 pl-4 bg-white border border-black/25 w-full text-xl"
+              placeholderTextColor={"#054C48"}
+              placeholder={"De uma descrição..."}
               value={description}
               onChangeText={(e) => setDescription(e)}
               multiline={true}
@@ -168,102 +167,68 @@ export default function Create() {
           </View>
 
           <View className="w-full">
-            <Text className="text-2xl font-semibold p-2 pl-4">Etiquetas:</Text>
+            <Text className="text-xl font-medium text-primary pl-4">Etiquetas:</Text>
             <MultiSelectButton data={tagsData} addTag={addTag} tags={tags} />
           </View>
 
           <View className="flex flex-col w-full pb-20">
-            <Text className="text-3xl font-semibold text-center my-5">Cronograma do Roteiro</Text>
             {roteiroData.map((item, i) => (
-              <View key={i} className="flex flex-row">
-                <View className="flex w-[10%] min-h-[80px] items-center relative">
-                  <View style={{
-                    position: 'absolute',
-                    left: '50%',
-                    top: 0,
-                    bottom: 0,
-                    width: 1,
-                    backgroundColor: 'black',
-                    transform: [{ translateX: -0.5 }],
-                  }} />
-                  <View className="bg-white flex items-center justify-center w-6 h-6 border border-black rounded-full mt-9">
-                    <Text>{i+1}</Text>
-                  </View>
-                </View>
-                <View className="flex flex-col">
-                  <Text className="text-2xl font-semibold my-9">
+              <View key={i} className="flex flex-row w-full">
+                <View className="flex flex-col w-full">
+                  <Text className="text-4xl text-center text-white font-bold my-4 bg-secondary w-[90%] mx-auto py-5 rounded-full">
                     {item.title}
                   </Text>
                   {item.data.map((place, j) => (
-                    <View key={j} className="flex flex-row">
-                      <View className="flex flex-row w-[5%] min-h-[80px] items-center justify-center relative">
+                    <View key={j} className="flex flex-row w-[90%]">
+                      <View className="flex flex-row w-[15%] min-h-[150px] items-center justify-center relative">
                         <View style={{
                           position: 'absolute',
                           left: '50%', 
                           top: 0,
                           bottom: 0,
-                          width: 1,
-                          backgroundColor: 'black',
+                          width: 4,
+                          backgroundColor: '#054C48',
                           transform: [{ translateX: -0.5 }],
                         }} />
-                        <View className="bg-white flex items-center justify-center w-6 h-6 border border-black rounded-full">
-                          <Text>{j+1}</Text>
+                        <View className="bg-white flex items-center justify-center w-10 h-10 border-4 border-primary rounded-full">
+                          <Text className="text-primary text-lg font-bold">{j+1}</Text>
                         </View>
                       </View>
                       <View className="flex flex-row w-[87%] items-center">
                         <DropdownComponent data={pontos} addToData={editPlace} id1={i} id2={j} />
-                        {/* <TouchableOpacity
-                          onPress={() => removePlace(i, j)}
-                        >
-                          <Image
-                            source={icons.lixo}
-                            resizeMode="contain"
-                            className="w-8 h-8"
-                          />
-                        </TouchableOpacity> */}
                       </View>
                     </View>
                   ))}
-                  <View className="flex flex-row">
-                    <View className="flex w-[5%] h-[80px] items-center justify-center relative">
+                  <View className="flex flex-row w-[90%]">
+                    <View className="flex w-[15%] h-[150px] items-center justify-center relative">
                       <View style={{
-                        position: 'absolute',
-                        left: '50%',
-                        top: 0,
-                        bottom: 0,
-                        width: 1,
-                        backgroundColor: 'black',
-                        transform: [{ translateX: -0.5 }],
-                      }} />
+                          position: 'absolute',
+                          left: '50%', 
+                          top: 0,
+                          bottom: 0,
+                          width: 4,
+                          backgroundColor: '#054C48',
+                          transform: [{ translateX: -0.5 }],
+                        }} />
                       <TouchableOpacity
-                        className="bg-white flex items-center justify-center w-6 h-6 border border-black rounded-full absolute"
+                        className="bg-white flex items-center justify-center w-10 h-10 border-4 border-primary rounded-full absolute"
                         onPress={() => newPlace(i)}
                       >
-                        <Text>+</Text>
+                        <Text className="text-primary text-lg font-bold">+</Text>
                       </TouchableOpacity>
                     </View>
                   </View>
                 </View>
               </View>
             ))}
-            <View className="flex flex-row">
-              <View className="flex w-[10%] h-[80px] items-center justify-center relative">
-                <View style={{
-                  position: 'absolute',
-                  left: '50%',
-                  top: 0,
-                  bottom: 0,
-                  width: 1,
-                  backgroundColor: 'black',
-                  transform: [{ translateX: -0.5 }],
-                }} />
-                <TouchableOpacity
-                  className="bg-white flex items-center justify-center w-6 h-6 border border-black rounded-full absolute"
+            <View className="flex flex-row w-full">
+                <TouchableOpacity className="w-[90%] mx-auto bg-secondary py-5 rounded-full my-4"
                   onPress={newDay}
                 >
-                  <Text>+</Text>
+                  <Text className="text-4xl text-center text-white font-bold">
+                    +
+                  </Text>
                 </TouchableOpacity>
-              </View>
             </View>
           </View>
           <View className="flex flex-row ml-auto mr-5 mb-10 gap-3">
