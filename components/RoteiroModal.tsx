@@ -1,38 +1,49 @@
 import { useEffect, useRef, useState } from "react";
-import { Modal, Pressable, Text, View, Animated, Image, ScrollView, Dimensions } from "react-native"
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import {
+  Modal,
+  Pressable,
+  Text,
+  View,
+  Animated,
+  Image,
+  ScrollView,
+  Dimensions,
+} from "react-native";
 import { DropdownButton } from "./dropdownButton";
 
 interface RoteiroModalProps {
   showRoteiro: boolean;
   setShowRoteiro: (e: boolean) => void;
-  selected: Array<any>
-  setSelected: (e: any) => void
-  images: Array<any>;
+  selected: any;
+  setSelected: (e: any) => void;
 }
 
-export const RoteiroModal = ({showRoteiro, setShowRoteiro, images, selected, setSelected}: RoteiroModalProps) => {
-
+export const RoteiroModal = ({
+  showRoteiro,
+  setShowRoteiro,
+  selected,
+  setSelected,
+}: RoteiroModalProps) => {
   const scrollRef = useRef<ScrollView | null>(null);
   const [carouselIndex, setCarouselIndex] = useState(0);
-  const { width: SCREEN_WIDTH } = Dimensions.get('window');
+  const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
   useEffect(() => {
-      if (!showRoteiro) return;
-      const interval = setInterval(() => {
-        setCarouselIndex((prev) => {
-          const next = (prev + 1) % images.length;
-          if (scrollRef.current) {
-            scrollRef.current.scrollTo({
-              x: next * SCREEN_WIDTH,
-              animated: true,
-            });
-          }
-          return next;
-        });
-      }, 5000);
-      return () => clearInterval(interval);
-    }, [showRoteiro]);
+    if (!showRoteiro) return;
+    const interval = setInterval(() => {
+      setCarouselIndex((prev) => {
+        const next = (prev + 1) % selected.images.length || [].length;
+        if (scrollRef.current) {
+          scrollRef.current.scrollTo({
+            x: next * SCREEN_WIDTH,
+            animated: true,
+          });
+        }
+        return next;
+      });
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [showRoteiro]);
 
   return (
     <Modal
@@ -41,21 +52,20 @@ export const RoteiroModal = ({showRoteiro, setShowRoteiro, images, selected, set
       visible={showRoteiro}
       className="relative"
       onRequestClose={() => {
-        setShowRoteiro(false)
-        setSelected([])
+        setShowRoteiro(false);
+        setSelected([]);
       }}
     >
-      <Pressable className="absolute p-1 px-2 bg-black-100 top-3 left-3 z-50 rounded-lg"
+      <Pressable
+        className="absolute p-1 px-2 bg-black-100 top-3 left-3 z-50 rounded-lg"
         onPress={() => {
-          setShowRoteiro(false)
-          setSelected([])
+          setShowRoteiro(false);
+          setSelected([]);
         }}
       >
-        <Text className="text-lg text-white">
-          Voltar
-        </Text>
+        <Text className="text-lg text-white">Voltar</Text>
       </Pressable>
-      <ScrollView>
+      <ScrollView className="bg-white">
         <View className="w-full" style={{ height: 200 }}>
           <Animated.ScrollView
             ref={scrollRef}
@@ -68,41 +78,31 @@ export const RoteiroModal = ({showRoteiro, setShowRoteiro, images, selected, set
             className="w-full"
             style={{ height: 200 }}
           >
-            {images.map((img, idx) => (
-              <Image
-                key={idx}
-                source={img}
-                resizeMode="cover"
-                className="w-[100vw] h-[200px]"
-              />
-            ))}
+            {selected.images &&
+              selected.images.map((img: any, idx: number) => (
+                <Image
+                  key={idx}
+                  source={{ uri: img }}
+                  resizeMode="cover"
+                  className="w-[100vw] h-[200px]"
+                />
+              ))}
           </Animated.ScrollView>
         </View>
-        <View className="flex flex-col bg-white">
-          <View className="p-3">
-            <Text className="text-3xl font-semibold">Loren Ipsum</Text>
-            <Text className="text-xl">
-              It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
-            </Text>
+        <View className="flex flex-col bg-white mb-10 ">
+          <View className="p-3 border border-black/25 rounded-b-2xl mb-4">
+            <Text className="text-3xl font-semibold">{selected.name}</Text>
+            <Text className="text-xl">{selected.description}</Text>
           </View>
-          <View className="m-8 rounded-lg overflow-hidden" style={{ height: 300 }}>
-            <MapView
-              style={{ flex: 1 }}
-              provider={PROVIDER_GOOGLE}
-              region={{
-                latitude: -23.621222,
-                longitude: -45.383078,
-                latitudeDelta: 0.005,
-                longitudeDelta: 0.005,
-              }}
-              minZoomLevel={13}
-            />
+
+          <View className="w-full flex items-center">
+            {selected.data &&
+              selected.data.map((day: any, i: number) => (
+                <DropdownButton data={day} key={i} />
+              ))}
           </View>
-          <DropdownButton />
-          <DropdownButton />
-          <DropdownButton />
         </View>
       </ScrollView>
     </Modal>
-  )
-}
+  );
+};

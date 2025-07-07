@@ -80,3 +80,72 @@ export const saveRoteiro = async (
     data: data,
   });
 };
+
+export const getPontos = async () => {
+  const pontosRef = firestore.collection("Ponto");
+  const data = await pontosRef.get();
+  return data;
+};
+
+export const getTags = async () => {
+  const pontosRef = firestore.collection("Tag");
+  const data = await pontosRef.get();
+  return data;
+};
+
+export const getRoteiros = async () => {
+  const roteirosRef = firestore.collection("Roteiro");
+  const data = await roteirosRef.get();
+  return data;
+};
+
+export const getGuias = async () => {
+  const guiasRef = firestore.collection("Guia");
+  const data = await guiasRef.get();
+  const guiaData = data.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+  return guiaData;
+};
+
+export const getRoteirosWithPontos = async () => {
+  const roteirosRef = firestore.collection("Roteiro");
+  const roteirosSnap = await roteirosRef.get();
+  const roteiros = roteirosSnap.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+
+  // Para cada roteiro, buscar os pontos de cada parada
+  const roteirosComPontos = await Promise.all(
+    roteiros.map(async (roteiro) => {
+      const dias = roteiro.data ? JSON.parse(roteiro.data) : [];
+      // Para cada dia
+      const diasComPontos = await Promise.all(
+        dias.map(async (dia) => {
+          // Para cada parada
+          const paradasComPonto = await Promise.all(
+            dia.data.map(async (parada) => {
+              if (parada.placeId) {
+                const pontoDoc = await firestore
+                  .collection("Ponto")
+                  .doc(parada.placeId)
+                  .get();
+                return {
+                  ...parada,
+                  ponto: pontoDoc.exists ? pontoDoc.data() : null,
+                };
+              }
+              return parada;
+            })
+          );
+          return { ...dia, data: paradasComPonto };
+        })
+      );
+      return { ...roteiro, data: diasComPontos };
+    })
+  );
+
+  return roteirosComPontos;
+};

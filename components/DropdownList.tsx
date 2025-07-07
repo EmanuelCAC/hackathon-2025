@@ -21,14 +21,14 @@ import React, { useState } from 'react';
         data={data}
         search
         maxHeight={200}
-        labelField="label"
-        valueField="value"
-        placeholder="Selecionar Parada"
+        labelField="name"
+        valueField="id"
+        placeholder="Selecionar parada"
         searchPlaceholder="Pesquisar..."
         value={value}
         onChange={item => {
-          setValue(item.value);
-          addToData(id1, id2, item.label, item.value)
+          setValue(item.id);
+          addToData(id1, id2, item.name, item.id)
         }}
       />
     );
